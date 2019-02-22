@@ -25,8 +25,13 @@ router.get("/:id", async (req, res) => {
       .select("p.id", "p.name", "p.description", "p.completed")
       .where({ id: req.params.id })
       .first();
+
+    const actions = await db("actions as a")
+      .join("projects as p", "p.id", "a.project_id")
+      .select("a.description", "a.notes", "a.completed")
+      .where("a.project_id", req.params.id);
     if (project) {
-      res.status(200).json(project);
+      res.status(200).json({ ...project, actions });
     } else {
       res.status(404).json({
         message: "The project with the specified ID does not exist."
@@ -44,12 +49,12 @@ router.get("/:id", async (req, res) => {
 // Get all actions in a project
 router.get("/:id/actions", async (req, res) => {
   try {
-    const projectactions = await db("actions as a")
+    const projectActions = await db("actions as a")
       .join("projects as p", "p.id", "a.project_id")
       .select("a.description", "a.notes", "a.completed", "p.name as project")
       .where("a.project_id", req.params.id);
-    if (projectactions) {
-      res.status(200).json(projectactions);
+    if (projectActions) {
+      res.status(200).json(projectActions);
     } else {
       res.status(404).json({
         message: "The project with the specified ID does not exist."
