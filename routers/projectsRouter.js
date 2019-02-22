@@ -46,7 +46,7 @@ router.get("/:id/actions", async (req, res) => {
   try {
     const projectactions = await db("actions as a")
       .join("projects as p", "p.id", "a.project_id")
-      .select("a.id", "a.name", "p.name as project")
+      .select("a.description", "a.notes", "a.completed", "p.name as project")
       .where("a.project_id", req.params.id);
     if (projectactions) {
       res.status(200).json(projectactions);
