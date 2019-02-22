@@ -1,4 +1,5 @@
 1: Explain the difference between RDBMS and SQL.
+An RDBMS or Relational Data Base Management System IS the actual database software. SQL is the language we use to interact with our system.
 
 2: Why do tables need a primary key?
 The primary key is important because it is what will be referenced by other tables via their foriegn keys.
